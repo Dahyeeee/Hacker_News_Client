@@ -542,18 +542,6 @@ const getData = (url)=>{
     ajax.send();
     return JSON.parse(ajax.response);
 };
-const articlePage = ()=>{
-    const id = location.hash.substring(1);
-    const newsContent = getData(CONTENT_URL.replace("@id", id));
-    console.log(newsContent);
-    container.innerHTML = "";
-    container.innerHTML = `
-    <h1>${newsContent.title}</h1>
-    <div>
-      <a href=#>목록으로</a>
-    </div>`;
-};
-window.addEventListener("hashchange", articlePage);
 const newsFeedPage = ()=>{
     const newsFeed = getData(NEWS_URL);
     const newsList = [
@@ -568,7 +556,25 @@ const newsFeedPage = ()=>{
     newsList.push("</ul>");
     container.innerHTML = newsList.join("");
 };
-newsFeedPage();
+const articlePage = ()=>{
+    const id = location.hash.substring(1);
+    const newsContent = getData(CONTENT_URL.replace("@id", id));
+    console.log(newsContent);
+    container.innerHTML = "";
+    container.innerHTML = `
+    <h1>${newsContent.title}</h1>
+    <div>
+      <a href=#>목록으로</a>
+    </div>`;
+};
+function router() {
+    const routePath = location.hash;
+    console.log(routePath);
+    if (routePath === "") newsFeedPage();
+    else articlePage();
+}
+window.addEventListener("hashchange", router);
+router();
 
 },{}]},["lrGur","99uh0"], "99uh0", "parcelRequire94c2")
 
